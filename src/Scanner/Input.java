@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
 public class Input
-{	
+{
 	public BufferedReader createReader(String filepath) throws FileNotFoundException
 	{
 		InputStreamReader reader = null;

@@ -11,6 +11,7 @@ public enum TokenType
 	ELSE(Pattern.compile("else",Pattern.CASE_INSENSITIVE)),
 	WHILE(Pattern.compile("while",Pattern.CASE_INSENSITIVE)),
 	RETURN(Pattern.compile("return",Pattern.CASE_INSENSITIVE)),
+	NEW(Pattern.compile("new",Pattern.CASE_INSENSITIVE)),
 	
 	LCURLYBRACK(Pattern.compile("\\{")),
 	RCURLYBRACK(Pattern.compile("\\}")),
@@ -42,12 +43,19 @@ public enum TokenType
 	
 	SHORTCOMMENT(Pattern.compile("//.*\\n")),
 	LONGCOMMENT(Pattern.compile("/\\*(.|[\\r\\n])*\\*/")),
-	WHITESPACE(Pattern.compile("\\s+"));
+	WHITESPACE(Pattern.compile("\\s+")),
+	ENDOFSTREAM,
+	UNDEFINED;
+	
 	
 	private final Pattern pattern;
 	private TokenType(Pattern pattern)
 	{
 	      this.pattern = pattern;
+	}
+	private TokenType()
+	{
+		this.pattern=null;
 	}
 	public Pattern getPattern()
 	{

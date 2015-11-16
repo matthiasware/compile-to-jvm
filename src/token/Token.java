@@ -12,4 +12,16 @@ public class Token
 		this.content = content;
 		this.position = position;
 	}
+	public TokenType geTokenType()
+	{
+		return this.type;
+	}
+	public String getContent()
+	{
+		return content;
+	}
+	public TokenPosition getPosition()
+	{
+		return position;
+	}
 }
