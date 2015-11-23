@@ -36,7 +36,8 @@ public class TInput
 		{
 			while (this.input.isNext())
 			{
-				System.out.println(input.getLinePosition() + ": " + input.getNext());
+				this.input.getNext();
+				//System.out.println(input.getLinePosition() + ": " + input.getNext());
 			}
 		}
 		catch (IOException e)

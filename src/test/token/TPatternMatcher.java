@@ -67,7 +67,7 @@ public class TPatternMatcher
 		String[] s = {" ","//","/*"," ","\n"};
 		for(int i=0; i<s.length; i++)
 		{
-			boolean b = this.matcher.isStartOfSkip(s[i]);
+			boolean b = this.matcher.isStartOfSkipable(s[i]);
 			Assert.assertTrue(b);
 		}
 	}
@@ -77,7 +77,7 @@ public class TPatternMatcher
 		String[] s={"/* asdsa  \n */","// asdas dasd as \n","   \n \t"};
 		for(int i=0; i<s.length; i++)
 		{
-			boolean b = this.matcher.isEndOfSkip(s[i]);
+			boolean b = this.matcher.isSkipable(s[i]);
 			Assert.assertTrue(b);
 		}
 	}
@@ -87,7 +87,7 @@ public class TPatternMatcher
 		String[] s={"/* asdsaas dsad {","// asdas "};
 		for(int i=0; i<s.length; i++)
 		{
-			boolean b = this.matcher.isEndOfSkip(s[i]);
+			boolean b = this.matcher.isSkipable(s[i]);
 			Assert.assertFalse(b);
 		}
 	}

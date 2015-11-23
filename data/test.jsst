@@ -1,1 +1,11 @@
-int class
+/*
+* Test Class
+*/
+public class testClass
+{
+	// calculate something
+	if(400 / 23 == 54)
+	{
+		
+	}
+}

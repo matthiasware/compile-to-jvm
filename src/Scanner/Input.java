@@ -41,12 +41,13 @@ public class Input
 		else
 		{
 			this.linePosition++;
+			this.buffer.append("\n");
 			this.buffer.append(nextLine);
 		}
 	}
 	public String getNext() throws IOException
 	{
-		if(this.buffer.length() == 1)
+		if(this.buffer.length() <= 1)
 		{
 			readNextLine();
 		}

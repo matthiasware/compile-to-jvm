@@ -14,10 +14,6 @@ public class Scanner
 
 	private boolean isNext;
 	private String tokenString;
-	private String curentChar;
-	private State state;
-	private State stateOld;
-
 
 	public Scanner(Input input, PatternMatcher matcher)
 	{
@@ -25,9 +21,6 @@ public class Scanner
 		this.matcher = matcher;
 		this.isNext = this.input.isNext();
 		this.tokenString = "";
-		this.curentChar = "";
-		this.state = State.TOKENIZENOMATCH;
-		this.stateOld = State.TOKENIZENOMATCH;
 	}
 
 	public boolean isNext()
@@ -41,29 +34,37 @@ public class Scanner
 
 		while (true)
 		{
-			System.out.println(this.state + " : " + this.stateOld);
 			if (this.input.isNext())
 			{
-				this.curentChar = input.getNext();
+				String current = input.getNext();
 				
-				this.updateState(this.tokenString + this.curentChar);
-				
-				if(this.state == State.TOKENIZENOMATCH && this.stateOld == State.TOKENIZEMATCH)
-				{
-					nextToken=createTokenFromTokenString(this.tokenString);
-					this.tokenString = this.curentChar;
-					this.updateState(this.tokenString);
-					break;
-				}
-				else if(this.state == State.SKIPMATCH)
+				if (matcher.isSkipable(tokenString + current))
 				{
 					this.tokenString = "";
-					this.curentChar = "";
+				}
+				else if (matcher.isStartOfSkipable(tokenString + current))
+				{
+						this.tokenString = tokenString+current;
+						this.skipUntilMatches();
+				}
+				else if (matcher.isMatching(this.tokenString) && !matcher.isMatching(this.tokenString + current))
+				{
+					nextToken = createTokenFromTokenString(this.tokenString);
+					this.tokenString = current;
+					if(matcher.isSkipable(this.tokenString))
+					{
+						this.tokenString = "";
+					}
+					break;
+				}
+				else
+				{
+					this.tokenString += current;
 				}
 			}
 			else
 			{
-				nextToken = this.createTokenFromTokenString("");
+				nextToken = this.createTokenFromTokenString(this.tokenString);
 				this.isNext = false;
 				break;
 			}
@@ -71,11 +72,35 @@ public class Scanner
 		return nextToken;
 	}
 
-	private Token createTokenFromTokenString(String tokenString)
+	private void skipUntilMatches() throws IOException
 	{
-		TokenType type = this.matcher.getTokenType(tokenString);
+		while (true)
+		{
+			if (this.input.isNext())
+			{
+				String currentChar = input.getNext();
+				
+				if (matcher.isSkipable(this.tokenString+currentChar))
+				{
+					this.tokenString = "";
+					break;
+				}
+				else
+				{
+					this.tokenString +=currentChar;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+	private Token createTokenFromTokenString(String s)
+	{
+		TokenType type = this.matcher.getTokenType(s);
 		TokenPosition position = new TokenPosition(this.input.getFilePath(), this.input.getLinePosition());
-		Token t = new Token(type, this.tokenString, position);
+		Token t = new Token(type, s, position);
 		return t;
 
 	}

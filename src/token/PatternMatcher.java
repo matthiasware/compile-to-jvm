@@ -50,11 +50,11 @@ public class PatternMatcher
 		}
 		return matches;
 	}
-	public boolean isStartOfSkip(String input)
+	public boolean isStartOfSkipable(String input)
 	{
 		return this.matchesAnyOfPattern(this.startOfSkipPattern, input);
 	}
-	public boolean isEndOfSkip(String input)
+	public boolean isSkipable(String input)
 	{
 		return this.matchesAnyOfPattern(this.totalSkipPattern, input);
 	}
