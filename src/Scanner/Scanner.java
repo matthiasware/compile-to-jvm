@@ -1,103 +1,82 @@
 package Scanner;
 
-import java.io.InputStreamReader;
-import java.util.regex.Pattern;
-
-import org.hamcrest.core.IsSame;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.BufferedReader;
 
 import token.PatternMatcher;
 import token.Token;
+import token.TokenPosition;
 import token.TokenType;
 
 public class Scanner
 {
-	private BufferedReader reader;
-	private boolean isNextToken;
-	private PatternMatcher pmatcher;
-	
-	private String tokenString = "";
-	private boolean matching = false;
-	private String current = "";
+	private Input input;
+	private PatternMatcher matcher;
 
-	public Scanner(BufferedReader reader, PatternMatcher pmatcher)
+	private boolean isNext;
+	private String tokenString;
+	private String curentChar;
+	private State state;
+	private State stateOld;
+
+
+	public Scanner(Input input, PatternMatcher matcher)
 	{
-		this.reader = reader;
-		this.isNextToken = true;
-		this.pmatcher = pmatcher;
+		this.input = input;
+		this.matcher = matcher;
+		this.isNext = this.input.isNext();
+		this.tokenString = "";
+		this.curentChar = "";
+		this.state = State.TOKENIZENOMATCH;
+		this.stateOld = State.TOKENIZENOMATCH;
 	}
 
-	public boolean isNextToken()
+	public boolean isNext()
 	{
-		return this.isNextToken;
+		return this.isNext;
 	}
 
-	public Token getNextToken() throws IOException
+	public Token getNext() throws IOException
 	{
-		Token token = null;
+		Token nextToken = null;
+
 		while (true)
 		{
-			int currentCharAsInt = this.reader.read();
-			if (currentCharAsInt == -1)
+			System.out.println(this.state + " : " + this.stateOld);
+			if (this.input.isNext())
 			{
-				TokenType ttype = this.pmatcher.getTokenType(this.tokenString);
-				this.isNextToken = false;
-				token = new Token(ttype, this.tokenString, null);
-				break;
+				this.curentChar = input.getNext();
+				
+				this.updateState(this.tokenString + this.curentChar);
+				
+				if(this.state == State.TOKENIZENOMATCH && this.stateOld == State.TOKENIZEMATCH)
+				{
+					nextToken=createTokenFromTokenString(this.tokenString);
+					this.tokenString = this.curentChar;
+					this.updateState(this.tokenString);
+					break;
+				}
+				else if(this.state == State.SKIPMATCH)
+				{
+					this.tokenString = "";
+					this.curentChar = "";
+				}
 			}
 			else
 			{
-				this.current = String.valueOf((char) currentCharAsInt);
-				if (!this.pmatcher.isMatching(this.tokenString + this.current) && this.matching)
-				{
-					TokenType ttype = this.pmatcher.getTokenType(this.tokenString);
-					token= new Token(ttype, this.tokenString, null);
-					this.tokenString = this.current;
-					this.matching = this.pmatcher.isMatching(this.tokenString);
-					break;
-				}
-				else
-				{
-					this.tokenString += this.current;
-					this.matching = this.pmatcher.isMatching(tokenString);
-				}
+				nextToken = this.createTokenFromTokenString("");
+				this.isNext = false;
+				break;
 			}
 		}
-		return token;
+		return nextToken;
 	}
 
-	public static void main(String args[])
+	private Token createTokenFromTokenString(String tokenString)
 	{
-		Input input = new Input();
-		BufferedReader reader;
-		try
-		{
-			reader = input.createReader("data/test.jsst");
-			PatternMatcher pmatcher = new PatternMatcher();
-			Scanner scanner = new Scanner(reader, pmatcher);
-			while(scanner.isNextToken)
-			{
-				Token t = scanner.getNextToken();
-				if(!t.geTokenType().equals(TokenType.WHITESPACE))
-				{
-					System.out.printf("%-15s> %-25s \n",t.geTokenType().toString(),t.getContent());
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
+		TokenType type = this.matcher.getTokenType(tokenString);
+		TokenPosition position = new TokenPosition(this.input.getFilePath(), this.input.getLinePosition());
+		Token t = new Token(type, this.tokenString, position);
+		return t;
 
-	// Detect Encodeing
-	// only read the chars u want, ignore rest
-	// Error rutines!
-	// Error on line x
-	// How to remember position?
-	// Encoding?
+	}
 }

@@ -2,56 +2,52 @@ package token;
 import java.util.regex.Pattern;
 public enum TokenType
 {	
-	CLASS(Pattern.compile("class",Pattern.CASE_INSENSITIVE)),
-	FINAL(Pattern.compile("final",Pattern.CASE_INSENSITIVE)),
-	PUBLIC(Pattern.compile("public",Pattern.CASE_INSENSITIVE)),
-	VOID(Pattern.compile("void",Pattern.CASE_INSENSITIVE)),
-	INT(Pattern.compile("int",Pattern.CASE_INSENSITIVE)),
-	IF(Pattern.compile("if",Pattern.CASE_INSENSITIVE)),
-	ELSE(Pattern.compile("else",Pattern.CASE_INSENSITIVE)),
-	WHILE(Pattern.compile("while",Pattern.CASE_INSENSITIVE)),
-	RETURN(Pattern.compile("return",Pattern.CASE_INSENSITIVE)),
-	NEW(Pattern.compile("new",Pattern.CASE_INSENSITIVE)),
+	CLASS("class"),
+	FINAL("final"),
+	PUBLIC("public"),
+	VOID("void"),
+	INT("int"),
+	IF("if"),
+	ELSE("else"),
+	WHILE("while"),
+	RETURN("return"),
+	NEW("new"),
 	
-	LCURLYBRACK(Pattern.compile("\\{")),
-	RCURLYBRACK(Pattern.compile("\\}")),
+	LCURLYBRACK("\\{"),
+	RCURLYBRACK("\\}"),
 	
-	EQUALS(Pattern.compile("=")),
-	SEMICOLON(Pattern.compile(";")),
-	COMMA(Pattern.compile(",")),
+	EQUALS("="),
+	SEMICOLON(";"),
+	COMMA(","),
 	
-	LPARANTHESE(Pattern.compile("\\(")),
-	RPARANTHESE(Pattern.compile("\\)")),
+	LPARANTHESE("\\("),
+	RPARANTHESE("\\)"),
 	
-	LRACK(Pattern.compile("\\[")),
-	RBRACK(Pattern.compile("\\]")),
+	LBRACK("\\["),
+	RBRACK("\\]"),
 	
-	LOGICALOPERATOR(Pattern.compile("==")),
-	LOGICALLESS(Pattern.compile("<")),
-	LOGICALGREATER(Pattern.compile(">")),
-	LOGICALLESSEQ(Pattern.compile("<=")),
-	LOGICALGREATEREQ(Pattern.compile(">=")),
+	LOGICALOPERATOR("=="),
+	LOGICALLESS("<"),
+	LOGICALGREATER(">"),
+	LOGICALLESSEQ("<="),
+	LOGICALGREATEREQ(">="),
 	
 	
-	OPERATORMULT(Pattern.compile("\\*")),
-	OPERATORDIV(Pattern.compile("/")),
-	OPERATORADD(Pattern.compile("\\+")),
-	OPERATORMIN(Pattern.compile("-")),
+	OPERATORMULT("\\*"),
+	OPERATORDIV("/"),
+	OPERATORADD("\\+"),
+	OPERATORMIN("-"),
 	
-	NUMBER(Pattern.compile("[1-9][\\d]*")),
-	IDENT(Pattern.compile("[a-zA-Z][\\w]+")),
-	
-	SHORTCOMMENT(Pattern.compile("//.*\\n")),
-	LONGCOMMENT(Pattern.compile("/\\*(.|[\\r\\n])*\\*/")),
-	WHITESPACE(Pattern.compile("\\s+")),
-	ENDOFSTREAM,
+	NUMBER("[1-9][\\d]*"),
+	IDENT("[a-zA-Z][\\w]+"),
+
 	UNDEFINED;
 	
 	
 	private final Pattern pattern;
-	private TokenType(Pattern pattern)
+	private TokenType(String pattern)
 	{
-	      this.pattern = pattern;
+	      this.pattern = Pattern.compile(pattern);
 	}
 	private TokenType()
 	{

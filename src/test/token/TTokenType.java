@@ -59,11 +59,7 @@ public class TTokenType
 	@Test 
 	public void testForWhiteSpace()
 	{
-		Pattern p = TokenType.WHITESPACE.getPattern(); 
-		for(String item : testSetWHITESPACE)
-		{
-			Assert.assertTrue(p.matcher(item).matches());	
-		}
+		
 	}
 	
 	
