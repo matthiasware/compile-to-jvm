@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import Scanner.Input;
+import scanner.Input;
 
 public class TInput
 {

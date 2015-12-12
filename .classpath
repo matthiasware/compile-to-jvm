@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-8-oracle"/>
 	<classpathentry kind="lib" path="/home/n0mi/Downloads/hamcrest-core-1.3.jar"/>
 	<classpathentry kind="lib" path="/home/n0mi/Downloads/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="/home/n0mi/lib/commons-lang3-3.4/commons-lang3-3.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

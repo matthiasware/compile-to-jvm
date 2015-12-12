@@ -1,0 +1,25 @@
+class testClass
+{
+	int dec;
+	final int const = (2+4)/2 * 33 - 6 ; 
+	
+	public void main(int args)
+	{
+		aa = 1;
+		bb = 2;
+		
+		if(aa > 2)
+		{
+			aa = 2;
+		}
+		else
+		{
+			aa=3;
+		}
+		while(2 >= 3)
+		{
+			do();
+		}
+		return 11*AA;
+	}
+}

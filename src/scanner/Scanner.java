@@ -1,14 +1,21 @@
-package Scanner;
+package scanner;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import token.PatternMatcher;
 import token.Token;
 import token.TokenPosition;
 import token.TokenType;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
+import logger.LoggerBuilder;;
+
 public class Scanner
 {
+	private static final Logger log = LoggerBuilder.getLogger(Scanner.class.getName());
+	
 	private Input input;
 	private PatternMatcher matcher;
 
@@ -40,6 +47,7 @@ public class Scanner
 				
 				if (matcher.isSkipable(tokenString + current))
 				{
+					log.info("SKIP <"+ StringEscapeUtils.escapeJava(this.tokenString+current) +">");
 					this.tokenString = "";
 				}
 				else if (matcher.isStartOfSkipable(tokenString + current))
@@ -82,6 +90,7 @@ public class Scanner
 				
 				if (matcher.isSkipable(this.tokenString+currentChar))
 				{
+					log.info("SKIP <"+ StringEscapeUtils.escapeJava(this.tokenString+currentChar) +">");
 					this.tokenString = "";
 					break;
 				}
@@ -101,6 +110,7 @@ public class Scanner
 		TokenType type = this.matcher.getTokenType(s);
 		TokenPosition position = new TokenPosition(this.input.getFilePath(), this.input.getLinePosition());
 		Token t = new Token(type, s, position);
+		log.info("CREATE "+t.geTokenType()+"<"+ t.getContent()+">");
 		return t;
 
 	}

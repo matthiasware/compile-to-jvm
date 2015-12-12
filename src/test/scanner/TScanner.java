@@ -1,12 +1,12 @@
-package test.Scanner;
+package test.scanner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
-import Scanner.Input;
-import Scanner.Scanner;
+import scanner.Input;
+import scanner.Scanner;
 import token.PatternMatcher;
 import token.Token;
 
@@ -27,7 +27,7 @@ public class TScanner
 			{
 				Token t = scanner.getNext();
 				tl.add(t);
-				System.out.println(t.geTokenType() + "<" + t.getContent()+">");
+				//System.out.println(t.geTokenType() + "<" + t.getContent()+">");
 			}
 			for(Token t : tl)
 			{
